@@ -1,0 +1,104 @@
+
+--- work/notebooks\capstone.ipynb ---
+## Self-check
+
+Before you submit, confirm each line honestly:
+
+- [x] Every section above is filled — markdown thinking AND the code that backs it
+- [x] The notebook runs top to bottom with no errors (Runtime → Run all)
+- [x] No client names, URLs, or private queries anywhere
+- [x] My claims use careful words: observed, measured, directional, decision-support
+- [x] Committed to my repo under `work/notebooks/` — then submit your repo URL on the card. Done.
+- [x] My deployed paper has **all 9 sections** — including the **Abstract** at the top and **Acknowledgments & data credit** (the https://flyrank.ai link) at the bottom.
+- [x] **ML-12 done in this notebook's closing cells:** 5-minute demo outline + a social-post cut + a 3-sentence employer-facing summary.
+
+--- work/notebooks\w01_research_question.ipynb ---
+## Self-check
+
+Before you submit, confirm each line honestly:
+
+- [x] Every section above is filled — markdown thinking AND the code that backs it
+- [x] The notebook runs top to bottom with no errors (Runtime → Run all)
+- [x] No client names, URLs, or private queries anywhere
+- [x] My claims use careful words: observed, measured, directional, decision-support
+- [x] Committed to my repo under `work/notebooks/` — then submit your repo URL on the card. Done.
+--- work/notebooks\w02_ml_task_framing.ipynb ---
+## Self-check
+
+Before you submit, confirm each line honestly:
+
+- [x] Every section above is filled — markdown thinking AND the code that backs it
+- [x] The notebook runs top to bottom with no errors (Runtime → Run all)
+- [x] No client names, URLs, or private queries anywhere
+- [x] My claims use careful words: observed, measured, directional, decision-support
+- [x] Committed to my repo under `work/notebooks/` — then submit your repo URL on the card. Done.
+--- work/notebooks\w03_data_contract.ipynb ---
+## Self-check
+
+Before you submit, confirm each line honestly:
+
+- [x] Every section above is filled — markdown thinking AND the code that backs it
+- [x] The notebook runs top to bottom with no errors (Runtime → Run all)
+- [x] No client names, URLs, or private queries anywhere
+- [x] My claims use careful words: observed, measured, directional, decision-support
+- [x] Committed to my repo under `work/notebooks/` — then submit your repo URL on the card. Done.
+--- work/notebooks\w03_feature_leakage_check.ipynb ---
+## Self-check
+
+Before you submit, confirm each line honestly:
+
+- [x] Every section above is filled — markdown thinking AND the code that backs it
+- [x] The notebook runs top to bottom with no errors (Runtime → Run all)
+- [x] No client names, URLs, or private queries anywhere
+- [x] My claims use careful words: observed, measured, directional, decision-support
+- [x] Committed to my repo under `work/notebooks/` — then submit your repo URL on the card. Done.
+--- work/notebooks\w04_baseline_score.ipynb ---
+## Self-check
+
+Before you submit, confirm each line honestly:
+
+- [x] Every section above is filled — markdown thinking AND the code that backs it
+- [x] The notebook runs top to bottom with no errors (Runtime → Run all)
+- [x] No client names, URLs, or private queries anywhere
+- [x] My claims use careful words: observed, measured, directional, decision-support
+- [x] Committed to my repo under `work/notebooks/` — then submit your repo URL on the card. Done.
+--- work/notebooks\w04_signal_audit.ipynb ---
+## Self-check
+
+Before you submit, confirm each line honestly:
+
+- [ ] Every section above is filled — markdown thinking AND the code that backs it
+- [ ] The notebook runs top to bottom with no errors (Runtime → Run all)
+- [ ] No client names, URLs, or private queries anywhere
+- [ ] My claims use careful words: observed, measured, directional, decision-support
+- [ ] Committed to my repo under `work/notebooks/` — then submit your repo URL on the card. Done.
+--- work/notebooks\w05_model.ipynb ---
+## Self-check
+
+Before you submit, confirm each line honestly:
+
+- [x] Every section above is filled — markdown thinking AND the code that backs it
+- [x] The notebook runs top to bottom with no errors (Runtime → Run all)
+- [x] No client names, URLs, or private queries anywhere
+- [x] My claims use careful words: observed, measured, directional, decision-support
+- [x] Committed to my repo under `work/notebooks/` — then submit your repo URL on the card. Done.
+--- work/notebooks\w06_validation_audit.ipynb ---
+## Self-check
+
+Before you submit, confirm each line honestly:
+
+- [x] Every section above is filled — markdown thinking AND the code that backs it
+- [x] The notebook runs top to bottom with no errors (Runtime → Run all)
+- [x] No client names, URLs, or private queries anywhere
+- [x] My claims use careful words: observed, measured, directional, decision-support
+- [x] Committed to my repo under `work/notebooks/` — then submit your repo URL on the card. Done.
+--- work/notebooks\w07_action_playbook.ipynb ---
+## Self-check
+
+Before you submit, confirm each line honestly:
+
+- [x] Every section above is filled — markdown thinking AND the code that backs it
+- [x] The notebook runs top to bottom with no errors (Runtime → Run all)
+- [x] No client names, URLs, or private queries anywhere
+- [x] My claims use careful words: observed, measured, directional, decision-support
+- [x] Committed to my repo under `work/notebooks/` — then submit your repo URL on the card. Done.
