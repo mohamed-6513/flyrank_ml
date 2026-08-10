@@ -5,9 +5,6 @@
 - **Code Repository:** [mohamed-6513/flyrank_ml](https://github.com/mohamed-6513/flyrank_ml)
 - **Date:** 2026-08-09
 
-> [!TIP]
-> **Download Full Research Paper:** [Download PDF Version](flyrank-seo-research-march-2026.pdf)
-
 ## 0. Abstract
 > Content decay quietly erodes organic traffic, but identifying which pages will drop next is notoriously difficult when managing thousands of URLs. Using an anonymized dataset of 17,980 pages from FlyRank, we developed a Logistic Regression model to predict traffic declines over a 90-day window. By learning from features like recent sessions and content age, the model achieved a 76% precision (Precision@50) on the top 50 highest-risk pages, significantly outperforming a human-defined baseline rule (58%). This paper provides a directional decision-support framework for SEO managers to prioritize their content refresh queues efficiently.
 
