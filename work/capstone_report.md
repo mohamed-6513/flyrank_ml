@@ -1,8 +1,8 @@
 # Capstone Report — ML Lane
 
-- **Author:** Intern
+- **Author:** Mohamed Sherif
 - **Lane:** Machine Learning
-- **Repo:** [Add your repo URL here]
+- **Code Repository:** [mohamed-6513/flyrank_ml](https://github.com/mohamed-6513/flyrank_ml)
 - **Date:** 2026-08-09
 
 ## 0. Abstract
