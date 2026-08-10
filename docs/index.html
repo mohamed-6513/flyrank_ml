@@ -1,4 +1,190 @@
-<!DOCTYPE html><html><head><meta charset='utf-8'><title>Capstone Report</title><style>body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif;max-width:800px;margin:40px auto;padding:0 20px;line-height:1.6;color:#333}h1,h2,h3,h4{color:#24292e}a{color:#0366d6;text-decoration:none}a:hover{text-decoration:underline}code{background-color:rgba(27,31,35,.05);padding:.2em .4em;border-radius:3px;font-family:ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace}pre{background-color:#f6f8fa;padding:16px;border-radius:6px;overflow:auto}pre code{background-color:transparent;padding:0}img{max-width:100%;height:auto;margin:20px 0}</style></head><body><h1>Capstone Report — ML Lane</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlyRank ML Capstone Report</title>
+    <style>
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --primary-color: #2563eb;
+    --text-main: #1f2937;
+    --text-muted: #4b5563;
+    --bg-main: #ffffff;
+    --bg-code: #f3f4f6;
+    --border-color: #e5e7eb;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: #f9fafb;
+    color: var(--text-main);
+    line-height: 1.7;
+    margin: 0;
+    padding: 0;
+    font-size: 17px;
+}
+
+.container {
+    max-width: 850px;
+    margin: 40px auto;
+    padding: 40px 60px;
+    background-color: var(--bg-main);
+    border-radius: 12px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+}
+
+h1, h2, h3, h4 {
+    color: #111827;
+    font-weight: 700;
+    margin-top: 2.5em;
+    margin-bottom: 1em;
+    letter-spacing: -0.02em;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    text-align: center;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 0.5em;
+}
+
+h2 {
+    font-size: 1.75rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.3em;
+}
+
+p {
+    margin-bottom: 1.5em;
+    color: var(--text-muted);
+}
+
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.15s ease-in-out;
+}
+
+a:hover {
+    color: #1d4ed8;
+    text-decoration: underline;
+}
+
+ul, ol {
+    margin-bottom: 1.5em;
+    padding-left: 1.5em;
+    color: var(--text-muted);
+}
+
+li {
+    margin-bottom: 0.5em;
+}
+
+code {
+    background-color: var(--bg-code);
+    color: #be123c;
+    padding: 0.2em 0.4em;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+    font-size: 0.9em;
+}
+
+pre {
+    background-color: #1e293b;
+    color: #f8fafc;
+    padding: 20px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin-bottom: 1.5em;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+}
+
+pre code {
+    background-color: transparent;
+    color: inherit;
+    padding: 0;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 30px auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+blockquote {
+    border-left: 4px solid var(--primary-color);
+    padding-left: 20px;
+    margin-left: 0;
+    font-style: italic;
+    color: var(--text-muted);
+    background-color: #eff6ff;
+    padding: 15px 20px;
+    border-radius: 0 8px 8px 0;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2em;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+th {
+    background-color: var(--bg-code);
+    font-weight: 600;
+}
+
+/* Specific styling for the top metadata (Author, Lane, etc.) */
+ul:first-of-type {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 40px;
+}
+
+ul:first-of-type li {
+    background-color: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    color: #166534;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    font-weight: 500;
+}
+
+@media (max-width: 768px) {
+    .container {
+        margin: 20px;
+        padding: 20px 30px;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Capstone Report — ML Lane</h1>
 <ul>
 <li><strong>Author:</strong> Mohamed Sherif</li>
 <li><strong>Lane:</strong> Machine Learning</li>
@@ -28,4 +214,7 @@
 <p>The exact steps to reproduce this analysis are contained in the <code>work/notebooks/capstone.ipynb</code> notebook. The pipeline handles data fetching, preprocessing, and model training end-to-end. We used <code>duckdb</code>, <code>pandas</code>, <code>scikit-learn</code>, <code>matplotlib</code>, and <code>seaborn</code>. The notebook includes random states (<code>random_state=42</code>) for reproducibility in modeling and splitting.</p>
 <h2>9. Acknowledgments &amp; data credit</h2>
 <p><a href="https://flyrank.ai" target="_blank">Built on the FlyRank ML Internship dataset</a>.</p>
-</body></html>
+
+    </div>
+</body>
+</html>
