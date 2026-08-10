@@ -23,6 +23,10 @@ We utilized a focused subset of features: `content_age_days`, `competition`, `im
 ## 5. Evaluation
 We used a Grouped Split (`GroupShuffleSplit` on `client_id`) to hold out entire clients. This ensures the model learns generalizable SEO signals, rather than memorizing the quirks and traffic patterns of specific domains. We evaluated the model at the business constraint limit of `K=50` (the top 50 pages the SEO team has the capacity to review). The model provided a substantial improvement over the heuristic baseline, increasing the precision of the top 50 highest-risk pages from 58% to 76%.
 
+**Results Charts:**
+![Top Feature Importance](img/top_feature_importance.svg)
+![Confidence Mix](img/confidence_mix.svg)
+
 ## 6. Interpretation
 The model successfully identifies pages at risk of decline by learning from historical sessions, age, and competition. It serves as a directional decision-support tool that highlights correlations, not strict causality. It does not replace human editorial review. The model assumes historical search patterns are representative of future trends, which may briefly shift during major search engine algorithm updates.
 
@@ -33,4 +37,4 @@ Based on the model's predictions across the entire active portfolio, we output a
 The exact steps to reproduce this analysis are contained in the `work/notebooks/capstone.ipynb` notebook. The pipeline handles data fetching, preprocessing, and model training end-to-end. We used `duckdb`, `pandas`, `scikit-learn`, `matplotlib`, and `seaborn`. The notebook includes random states (`random_state=42`) for reproducibility in modeling and splitting.
 
 ## 9. Acknowledgments & data credit
-Built on the FlyRank ML Internship dataset (https://flyrank.ai).
+<a href="https://flyrank.ai" target="_blank">Built on the FlyRank ML Internship dataset</a>.

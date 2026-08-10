@@ -1,4 +1,4 @@
-<!DOCTYPE html><html><head><meta charset='utf-8'><title>Capstone Report</title><style>body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif;max-width:800px;margin:40px auto;padding:0 20px;line-height:1.6;color:#333}h1,h2,h3,h4{color:#24292e}a{color:#0366d6;text-decoration:none}a:hover{text-decoration:underline}code{background-color:rgba(27,31,35,.05);padding:.2em .4em;border-radius:3px;font-family:ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace}pre{background-color:#f6f8fa;padding:16px;border-radius:6px;overflow:auto}pre code{background-color:transparent;padding:0}</style></head><body><h1>Capstone Report — ML Lane</h1>
+<!DOCTYPE html><html><head><meta charset='utf-8'><title>Capstone Report</title><style>body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif;max-width:800px;margin:40px auto;padding:0 20px;line-height:1.6;color:#333}h1,h2,h3,h4{color:#24292e}a{color:#0366d6;text-decoration:none}a:hover{text-decoration:underline}code{background-color:rgba(27,31,35,.05);padding:.2em .4em;border-radius:3px;font-family:ui-monospace,SFMono-Regular,SF Mono,Menlo,Consolas,Liberation Mono,monospace}pre{background-color:#f6f8fa;padding:16px;border-radius:6px;overflow:auto}pre code{background-color:transparent;padding:0}img{max-width:100%;height:auto;margin:20px 0}</style></head><body><h1>Capstone Report — ML Lane</h1>
 <ul>
 <li><strong>Author:</strong> Mohamed Sherif</li>
 <li><strong>Lane:</strong> Machine Learning</li>
@@ -17,6 +17,9 @@
 <p>We utilized a focused subset of features: <code>content_age_days</code>, <code>competition</code>, <code>impressions_prev_30d</code>, <code>search_volume</code>, and <code>sessions_prev_30d</code>. The target label is &quot;declining&quot; (1) if its <code>trend_direction</code> is 'down', and 0 otherwise. A Logistic Regression model (with <code>class_weight='balanced'</code>) was trained using a standard scaler and median imputation to predict this binary label.</p>
 <h2>5. Evaluation</h2>
 <p>We used a Grouped Split (<code>GroupShuffleSplit</code> on <code>client_id</code>) to hold out entire clients. This ensures the model learns generalizable SEO signals, rather than memorizing the quirks and traffic patterns of specific domains. We evaluated the model at the business constraint limit of <code>K=50</code> (the top 50 pages the SEO team has the capacity to review). The model provided a substantial improvement over the heuristic baseline, increasing the precision of the top 50 highest-risk pages from 58% to 76%.</p>
+<p><strong>Results Charts:</strong>
+<img src="img/top_feature_importance.svg" alt="Top Feature Importance" />
+<img src="img/confidence_mix.svg" alt="Confidence Mix" /></p>
 <h2>6. Interpretation</h2>
 <p>The model successfully identifies pages at risk of decline by learning from historical sessions, age, and competition. It serves as a directional decision-support tool that highlights correlations, not strict causality. It does not replace human editorial review. The model assumes historical search patterns are representative of future trends, which may briefly shift during major search engine algorithm updates.</p>
 <h2>7. Recommendation</h2>
@@ -24,5 +27,5 @@
 <h2>8. Reproducibility</h2>
 <p>The exact steps to reproduce this analysis are contained in the <code>work/notebooks/capstone.ipynb</code> notebook. The pipeline handles data fetching, preprocessing, and model training end-to-end. We used <code>duckdb</code>, <code>pandas</code>, <code>scikit-learn</code>, <code>matplotlib</code>, and <code>seaborn</code>. The notebook includes random states (<code>random_state=42</code>) for reproducibility in modeling and splitting.</p>
 <h2>9. Acknowledgments &amp; data credit</h2>
-<p>Built on the FlyRank ML Internship dataset (https://flyrank.ai).</p>
+<p><a href="https://flyrank.ai" target="_blank">Built on the FlyRank ML Internship dataset</a>.</p>
 </body></html>
