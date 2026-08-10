@@ -60,7 +60,6 @@ h1, h2, h3, h4, .meta-label, th {
     position: relative;
 }
 
-/* Metadata Bar */
 .metadata-row {
     display: flex;
     flex-wrap: wrap;
@@ -70,154 +69,61 @@ h1, h2, h3, h4, .meta-label, th {
     border-bottom: 1px solid var(--border-color);
     justify-content: flex-start;
 }
-.meta-item {
-    display: flex;
-    flex-direction: column;
-}
-.meta-label {
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--text-secondary);
-    font-weight: 600;
-    margin-bottom: 4px;
-}
-.meta-value {
-    font-family: 'Inter', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 500;
-    color: var(--text-primary);
-}
-.meta-value a {
-    color: var(--accent-color);
-    text-decoration: none;
-}
-.meta-value a:hover {
-    text-decoration: underline;
-}
+.meta-item { display: flex; flex-direction: column; }
+.meta-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); font-weight: 600; margin-bottom: 4px; }
+.meta-value { font-family: 'Inter', sans-serif; font-size: 0.95rem; font-weight: 500; color: var(--text-primary); }
+.meta-value a { color: var(--accent-color); text-decoration: none; }
+.meta-value a:hover { text-decoration: underline; }
 
-/* Abstract Card */
-.abstract-card {
-    background: #f0f9ff;
-    border-left: 4px solid var(--accent-color);
-    padding: 30px 40px;
-    border-radius: 0 8px 8px 0;
-    margin: 40px 0;
-}
-.abstract-card h2 {
-    margin-top: 0;
-    color: #0369a1;
-    font-size: 1.2rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    border: none;
-    padding: 0;
-}
-.abstract-card p {
-    margin-bottom: 0;
-    color: #0c4a6e;
-    font-size: 1.05rem;
-}
+.abstract-card { background: #f0f9ff; border-left: 4px solid var(--accent-color); padding: 30px 40px; border-radius: 0 8px 8px 0; margin: 40px 0; }
+.abstract-card h2 { margin-top: 0; color: #0369a1; font-size: 1.2rem; text-transform: uppercase; letter-spacing: 0.05em; border: none; padding: 0; }
+.abstract-card p { margin-bottom: 0; color: #0c4a6e; font-size: 1.05rem; }
 
-/* Typography & Content */
-h2 {
-    font-size: 1.8rem;
-    color: var(--brand-color);
-    margin-top: 2.5em;
-    margin-bottom: 1em;
-    padding-bottom: 0.5em;
-    border-bottom: 1px solid var(--border-color);
-}
+h2 { font-size: 1.8rem; color: var(--brand-color); margin-top: 2.5em; margin-bottom: 1em; padding-bottom: 0.5em; border-bottom: 1px solid var(--border-color); }
+p { margin-bottom: 1.5em; color: var(--text-secondary); }
+a { color: var(--accent-color); text-decoration: underline; text-underline-offset: 2px; }
 
-p {
-    margin-bottom: 1.5em;
-    color: var(--text-secondary);
-}
+code { font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace; background-color: var(--bg-page); padding: 0.2em 0.4em; border-radius: 4px; font-size: 0.85em; color: #b91c1c; }
 
-a {
-    color: var(--accent-color);
-    text-decoration: underline;
-    text-underline-offset: 2px;
+/* Fixed Responsive Data Tables */
+.table-responsive {
+    overflow-x: auto;
+    margin: 3em 0;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
 }
-
-/* Code Blocks */
-code {
-    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
-    background-color: var(--bg-page);
-    padding: 0.2em 0.4em;
-    border-radius: 4px;
-    font-size: 0.85em;
-    color: #b91c1c;
-}
-
-/* Data Tables */
 table {
     width: 100%;
     border-collapse: collapse;
-    margin: 3em 0;
     font-family: 'Inter', sans-serif;
-    font-size: 0.9rem;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-    border-radius: 8px;
-    overflow: hidden;
+    font-size: 0.85rem;
+    white-space: nowrap;
 }
 th {
     background-color: var(--brand-color);
     color: white;
     font-weight: 600;
     text-align: left;
-    padding: 16px 20px;
+    padding: 12px 16px;
 }
 td {
-    padding: 16px 20px;
+    padding: 12px 16px;
     border-bottom: 1px solid var(--border-color);
     color: var(--text-secondary);
 }
-tr:last-child td {
-    border-bottom: none;
-}
-tr:nth-child(even) {
-    background-color: #f8fafc;
-}
-tr:hover td {
-    background-color: #f1f5f9;
-}
+tr:last-child td { border-bottom: none; }
+tr:nth-child(even) { background-color: #f8fafc; }
+tr:hover td { background-color: #f1f5f9; }
 
-img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin: 40px auto;
-    border-radius: 8px;
-    border: 1px solid #e5e7eb;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-}
+img { max-width: 100%; height: auto; display: block; margin: 40px auto; border-radius: 8px; border: 1px solid #e5e7eb; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
 
-blockquote {
-    border-left: 4px solid var(--accent-color);
-    background-color: var(--bg-page);
-    padding: 20px 25px;
-    margin: 2em 0;
-    border-radius: 0 8px 8px 0;
-    font-style: italic;
-    color: var(--text-secondary);
-}
+blockquote { border-left: 4px solid var(--accent-color); background-color: var(--bg-page); padding: 20px 25px; margin: 2em 0; border-radius: 0 8px 8px 0; font-style: italic; color: var(--text-secondary); }
 
 @media (max-width: 768px) {
-    .container {
-        margin: 0;
-        padding: 40px 30px;
-        border-radius: 0;
-    }
-    .hero {
-        padding: 60px 20px;
-    }
-    .hero h1 {
-        font-size: 2.2rem;
-    }
-    .metadata-row {
-        gap: 20px;
-    }
+    .container { margin: 0; padding: 40px 30px; border-radius: 0; }
+    .hero { padding: 60px 20px; }
+    .hero h1 { font-size: 2.2rem; }
+    .metadata-row { gap: 20px; }
 }
 
     </style>
@@ -264,7 +170,7 @@ blockquote {
 <h2>5. Evaluation</h2>
 <p>We used a Grouped Split (<code>GroupShuffleSplit</code> on <code>client_id</code>) to hold out entire clients. This ensures the model learns generalizable SEO signals, rather than memorizing the quirks and traffic patterns of specific domains. We evaluated the model at the business constraint limit of <code>K=50</code> (the top 50 pages the SEO team has the capacity to review). The model provided a substantial improvement over the heuristic baseline, increasing the precision of the top 50 highest-risk pages from 58% to 76%.</p>
 <p><strong>Model Performance (Precision@K on Test Set):</strong></p>
-<table>
+<div class="table-responsive"><table>
 <thead>
 <tr>
   <th>K</th>
@@ -289,7 +195,7 @@ blockquote {
   <td style="text-align:right">0.6600</td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <p><strong>Results Charts:</strong>
 <img src="img/queue_performance.png" alt="Model Outperformance across Queue Sizes" /></p>
 <blockquote>
@@ -301,7 +207,7 @@ blockquote {
 <h2>7. Recommendation</h2>
 <p>Based on the model's predictions across the entire active portfolio, we output a ranked <strong>Action Playbook</strong>. The top 5 pages mathematically most likely to decline were surfaced for immediate editorial review, complete with their feature properties so editors know exactly what to look for.</p>
 <p><strong>Top 5 Pages for Immediate Editorial Review:</strong></p>
-<table>
+<div class="table-responsive"><table>
 <thead>
 <tr>
   <th>content_id</th>
@@ -366,7 +272,7 @@ blockquote {
   <td style="text-align:right">44</td>
 </tr>
 </tbody>
-</table>
+</table></div>
 <h2>8. Reproducibility</h2>
 <p>The exact steps to reproduce this analysis are contained in the <code>work/notebooks/capstone.ipynb</code> notebook. The pipeline handles data fetching, preprocessing, and model training end-to-end. We used <code>duckdb</code>, <code>pandas</code>, <code>scikit-learn</code>, <code>matplotlib</code>, and <code>seaborn</code>. The notebook includes random states (<code>random_state=42</code>) for reproducibility in modeling and splitting.</p>
 <h2>9. Acknowledgments &amp; data credit</h2>
