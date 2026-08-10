@@ -197,140 +197,103 @@ ul:first-of-type li {
 <li><strong>Date:</strong> 2026-08-09</li>
 </ul>
 <h2>0. Abstract</h2>
-<blockquote>
-<p>Content decay quietly erodes organic traffic, but identifying which pages will drop next is notoriously difficult when managing thousands of URLs. Using an anonymized dataset of 17,980 pages from FlyRank, we developed a Random Forest model to predict traffic declines over a 90-day window. By learning from features covering traffic, engagement, and metadata, the model achieved a 74% precision (Precision@50) on the top 50 highest-risk pages, significantly outperforming a human-defined baseline rule (24%). This paper provides a directional decision-support framework for SEO managers to prioritize their content refresh queues efficiently.</p>
-</blockquote>
+<p>Content decay quietly erodes organic traffic, but identifying which pages will drop next is notoriously difficult when managing thousands of URLs. Using an anonymized dataset of 17,980 pages from FlyRank, we developed a Logistic Regression model to predict traffic declines over a 90-day window. By learning from features like recent sessions and content age, the model achieved a 76% precision (Precision@50) on the top 50 highest-risk pages, significantly outperforming a human-defined baseline rule (58%). This paper provides a directional decision-support framework for SEO managers to prioritize their content refresh queues efficiently.</p>
 <h2>1. Problem framing</h2>
 <p>For SEO managers, content decay is inevitable, but editorial resources are finite. Standard practices often rely on arbitrary rules—like updating any page older than 180 days—which wastes time on stable pages and misses newer pages that are suddenly dropping. This project asks: Can machine learning predict exactly which pages will lose traffic in the next 90 days? We support the SEO manager's decision-making process by replacing guesswork with a predictive ranking system, ensuring that the 50 pages a team updates this month are exactly the 50 most likely to lose traffic if ignored.</p>
 <h2>2. Data safety</h2>
 <p>Instead of relying on a small static CSV, we queried FlyRank's 79 million-row data warehouse (<code>hf://datasets/FlyRank/internship-warehouse</code>) directly using DuckDB. We joined the <code>fact_content_daily_performance_sample</code> table with <code>dim_content</code> to aggregate trailing 30-day performance. To ensure the model focuses on meaningful traffic, we filtered the data to include only &quot;active&quot; pages (those with &gt;100 impressions). Private client names, specific URLs, and raw queries were strictly excluded to ensure public safety and data privacy. We ran a &quot;Smoke Alarm&quot; test by intentionally including a leaky feature (<code>trend_pct</code>). After confirming our evaluation harness caught the anomaly, we removed it to guarantee an honest evaluation.</p>
 <h2>3. Baseline</h2>
-<p>The baseline is a heuristic rule representing standard SEO intuition: flagging pages that are young (&lt;180 days) or high competition (&gt;0.71), scaled by previous impressions. This is a transparent rule that uses no fitted weights, making it a fair comparison. On the test set, the baseline achieved a Precision@50 of 0.2400.</p>
+<p>The baseline is a heuristic rule representing standard SEO intuition: flagging pages that are young (&lt;180 days) or high competition (&gt;0.71), scaled by previous impressions. This is a transparent rule that uses no fitted weights, making it a fair comparison. On the test set, the baseline achieved a Precision@50 of 0.5800 compared to a base rate of 0.5665.</p>
 <h2>4. Model / analysis</h2>
-<p>We utilized a focused subset of features covering traffic, engagement, and metadata. The target label is &quot;declining&quot; (1) if its <code>trend_direction</code> is 'down', and 0 otherwise. A Random Forest model emerged as the most effective algorithm.</p>
-<p><strong>Top Predictive Features (by importance):</strong></p>
-<ul>
-<li><code>days_with_impressions</code>: 0.1578</li>
-<li><code>log_impressions_90d</code>: 0.1282</li>
-<li><code>avg_position</code>: 0.1090</li>
-<li><code>content_age_days</code>: 0.0955</li>
-<li><code>char_count</code>: 0.0426</li>
-</ul>
+<p>We utilized a focused subset of features: <code>content_age_days</code>, <code>competition</code>, <code>impressions_prev_30d</code>, <code>search_volume</code>, and <code>sessions_prev_30d</code>. The target label is &quot;declining&quot; (1) if its <code>trend_direction</code> is 'down', and 0 otherwise. A Logistic Regression model (with <code>class_weight='balanced'</code>) was trained using a standard scaler and median imputation to predict this binary label.</p>
 <h2>5. Evaluation</h2>
-<p>We used a Grouped Split (<code>GroupShuffleSplit</code> on <code>client_id</code>) to hold out entire clients. This ensures the model learns generalizable SEO signals, rather than memorizing the quirks and traffic patterns of specific domains. We evaluated the model at the business constraint limit of <code>K=50</code> (the top 50 pages the SEO team has the capacity to review). The model provided a substantial improvement over the heuristic baseline, increasing the precision of the top 50 highest-risk pages from 24% to 74%.</p>
-<p><strong>Model Comparison (Client Holdout Split):</strong></p>
+<p>We used a Grouped Split (<code>GroupShuffleSplit</code> on <code>client_id</code>) to hold out entire clients. This ensures the model learns generalizable SEO signals, rather than memorizing the quirks and traffic patterns of specific domains. We evaluated the model at the business constraint limit of <code>K=50</code> (the top 50 pages the SEO team has the capacity to review). The model provided a substantial improvement over the heuristic baseline, increasing the precision of the top 50 highest-risk pages from 58% to 76%.</p>
+<p><strong>Model Performance (Precision@K on Test Set):</strong></p>
 <table>
 <thead>
 <tr>
-  <th>Model</th>
-  <th style="text-align:right">ROC AUC</th>
-  <th style="text-align:right">Avg precision</th>
-  <th style="text-align:right">Precision@50</th>
-  <th style="text-align:right">Recall</th>
-  <th style="text-align:right">F1</th>
+  <th>K</th>
+  <th style="text-align:right">Baseline P@K</th>
+  <th style="text-align:right">Model P@K</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-  <td>random_forest</td>
-  <td style="text-align:right">0.750</td>
-  <td style="text-align:right">0.618</td>
-  <td style="text-align:right">0.740</td>
-  <td style="text-align:right">0.744</td>
-  <td style="text-align:right">0.640</td>
+  <td>20</td>
+  <td style="text-align:right">0.6500</td>
+  <td style="text-align:right">0.8000</td>
 </tr>
 <tr>
-  <td>decision_tree</td>
-  <td style="text-align:right">0.742</td>
-  <td style="text-align:right">0.575</td>
-  <td style="text-align:right">0.540</td>
-  <td style="text-align:right">0.716</td>
-  <td style="text-align:right">0.634</td>
+  <td>50</td>
+  <td style="text-align:right">0.5800</td>
+  <td style="text-align:right">0.7600</td>
 </tr>
 <tr>
-  <td>logistic_regression</td>
-  <td style="text-align:right">0.700</td>
-  <td style="text-align:right">0.522</td>
-  <td style="text-align:right">0.400</td>
-  <td style="text-align:right">0.567</td>
-  <td style="text-align:right">0.566</td>
-</tr>
-<tr>
-  <td>baseline_rules</td>
-  <td style="text-align:right">0.627</td>
-  <td style="text-align:right">0.468</td>
-  <td style="text-align:right">0.240</td>
-  <td style="text-align:right">-</td>
-  <td style="text-align:right">-</td>
+  <td>100</td>
+  <td style="text-align:right">0.6000</td>
+  <td style="text-align:right">0.6600</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Results Charts:</strong>
-<img src="img/top_feature_importance.svg" alt="Top Feature Importance" />
-<img src="img/confidence_mix.svg" alt="Confidence Mix" /></p>
 <h2>6. Interpretation</h2>
 <p>The model successfully identifies pages at risk of decline by learning from historical sessions, age, and competition. It serves as a directional decision-support tool that highlights correlations, not strict causality. It does not replace human editorial review. The model assumes historical search patterns are representative of future trends, which may briefly shift during major search engine algorithm updates.</p>
 <h2>7. Recommendation</h2>
-<p>Based on the model's predictions across the entire active portfolio, we output a ranked <strong>Action Playbook</strong>. The pages mathematically most likely to decline are surfaced for immediate editorial review, complete with their feature properties and specific recommended actions (e.g., <code>refresh_and_review_ctr</code>).</p>
-<p><strong>Top 5 Action Queue Preview:</strong></p>
+<p>Based on the model's predictions across the entire active portfolio, we output a ranked <strong>Action Playbook</strong>. The top 5 pages mathematically most likely to decline were surfaced for immediate editorial review, complete with their feature properties so editors know exactly what to look for.</p>
+<p><strong>Top 5 Pages for Immediate Editorial Review:</strong></p>
 <table>
 <thead>
 <tr>
-  <th style="text-align:right">Rank</th>
-  <th style="text-align:right">Score</th>
-  <th>Action</th>
-  <th>Reasons</th>
-  <th style="text-align:right">Impressions</th>
-  <th>Trend</th>
+  <th>content_id</th>
+  <th style="text-align:right">decline_probability</th>
+  <th style="text-align:right">content_age_days</th>
+  <th style="text-align:right">competition</th>
+  <th style="text-align:right">impressions_prev_30d</th>
+  <th style="text-align:right">sessions_prev_30d</th>
 </tr>
 </thead>
 <tbody>
 <tr>
+  <td>content_c84a0ab98e90</td>
+  <td style="text-align:right">0.697</td>
+  <td style="text-align:right">95</td>
+  <td style="text-align:right">0.00</td>
+  <td style="text-align:right">84,773</td>
+  <td style="text-align:right">19</td>
+</tr>
+<tr>
+  <td>content_39881853ef0c</td>
+  <td style="text-align:right">0.690</td>
+  <td style="text-align:right">97</td>
+  <td style="text-align:right">0.02</td>
+  <td style="text-align:right">64,917</td>
+  <td style="text-align:right">11</td>
+</tr>
+<tr>
+  <td>content_453722754fea</td>
+  <td style="text-align:right">0.677</td>
+  <td style="text-align:right">97</td>
+  <td style="text-align:right">0.00</td>
+  <td style="text-align:right">32,872</td>
   <td style="text-align:right">1</td>
-  <td style="text-align:right">81.6</td>
-  <td>refresh_and_review_ctr</td>
-  <td>low_ctr, low_engagement, model_decline_risk</td>
-  <td style="text-align:right">12834</td>
-  <td>down</td>
 </tr>
 <tr>
-  <td style="text-align:right">2</td>
-  <td style="text-align:right">81.4</td>
-  <td>refresh_and_review_ctr</td>
-  <td>low_ctr, model_decline_risk, visible_opportunity</td>
-  <td style="text-align:right">8064</td>
-  <td>down</td>
+  <td>content_8d3971bfd976</td>
+  <td style="text-align:right">0.674</td>
+  <td style="text-align:right">95</td>
+  <td style="text-align:right">0.00</td>
+  <td style="text-align:right">54,506</td>
+  <td style="text-align:right">17</td>
 </tr>
 <tr>
-  <td style="text-align:right">3</td>
-  <td style="text-align:right">81.4</td>
-  <td>refresh_and_review_ctr</td>
-  <td>low_ctr, model_decline_risk, visible_opportunity</td>
-  <td style="text-align:right">2498</td>
-  <td>down</td>
-</tr>
-<tr>
-  <td style="text-align:right">4</td>
-  <td style="text-align:right">81.0</td>
-  <td>refresh_and_review_ctr</td>
-  <td>low_ctr, model_decline_risk, visible_opportunity</td>
-  <td style="text-align:right">13790</td>
-  <td>down</td>
-</tr>
-<tr>
-  <td style="text-align:right">5</td>
-  <td style="text-align:right">80.9</td>
-  <td>refresh_and_review_ctr</td>
-  <td>low_ctr, model_decline_risk, visible_opportunity</td>
-  <td style="text-align:right">3393</td>
-  <td>down</td>
+  <td>content_73c54f78c06a</td>
+  <td style="text-align:right">0.671</td>
+  <td style="text-align:right">97</td>
+  <td style="text-align:right">0.00</td>
+  <td style="text-align:right">97,200</td>
+  <td style="text-align:right">44</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Portfolio Strategy &amp; Diagnostics:</strong>
-<img src="img/action_mix.svg" alt="Action Mix" />
-<img src="img/top_reason_codes.svg" alt="Top Reason Codes" />
-<img src="img/trend_distribution.svg" alt="Trend Distribution" /></p>
 <h2>8. Reproducibility</h2>
 <p>The exact steps to reproduce this analysis are contained in the <code>work/notebooks/capstone.ipynb</code> notebook. The pipeline handles data fetching, preprocessing, and model training end-to-end. We used <code>duckdb</code>, <code>pandas</code>, <code>scikit-learn</code>, <code>matplotlib</code>, and <code>seaborn</code>. The notebook includes random states (<code>random_state=42</code>) for reproducibility in modeling and splitting.</p>
 <h2>9. Acknowledgments &amp; data credit</h2>
