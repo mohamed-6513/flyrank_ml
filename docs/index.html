@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forecasting SEO Content Decay</title>
+    <title>Forecasting SEO Content Decay: A Machine Learning Framework for Refresh Prioritization</title>
     <style>
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
@@ -17,50 +17,59 @@
     --border-color: #e5e7eb;
 }
 
-* {
-    box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background-color: #f9fafb;
+    background-color: #f4f7f6;
     color: var(--text-main);
-    line-height: 1.7;
+    line-height: 1.8;
     margin: 0;
     padding: 0;
     font-size: 17px;
 }
 
+.header-banner {
+    background: linear-gradient(135deg, #1e3a8a, #2563eb);
+    color: white;
+    padding: 60px 20px 40px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.header-banner h1 {
+    color: white;
+    font-size: 2.8rem;
+    max-width: 900px;
+    margin: 0 auto 20px;
+    border: none;
+    line-height: 1.3;
+}
+
 .container {
-    max-width: 850px;
-    margin: 40px auto;
-    padding: 40px 60px;
+    max-width: 900px;
+    margin: -30px auto 60px;
+    padding: 50px 70px;
     background-color: var(--bg-main);
     border-radius: 12px;
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
-}
-
-h1, h2, h3, h4 {
-    color: #111827;
-    font-weight: 700;
-    margin-top: 2.5em;
-    margin-bottom: 1em;
-    letter-spacing: -0.02em;
-}
-
-h1 {
-    font-size: 2.5rem;
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
-    text-align: center;
-    border-bottom: 2px solid var(--border-color);
-    padding-bottom: 0.5em;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
+    position: relative;
+    z-index: 10;
 }
 
 h2 {
-    font-size: 1.75rem;
-    border-bottom: 1px solid var(--border-color);
+    font-size: 1.8rem;
+    color: #111827;
+    margin-top: 2.5em;
+    border-bottom: 2px solid var(--primary-color);
     padding-bottom: 0.3em;
+    display: inline-block;
+}
+
+h3 {
+    font-size: 1.4rem;
+    color: #374151;
+    margin-top: 2em;
 }
 
 p {
@@ -72,30 +81,20 @@ a {
     color: var(--primary-color);
     text-decoration: none;
     font-weight: 500;
-    transition: color 0.15s ease-in-out;
 }
-
 a:hover {
-    color: #1d4ed8;
     text-decoration: underline;
 }
 
-ul, ol {
-    margin-bottom: 1.5em;
-    padding-left: 1.5em;
-    color: var(--text-muted);
-}
-
-li {
-    margin-bottom: 0.5em;
-}
+ul { margin-bottom: 1.5em; padding-left: 1.5em; color: var(--text-muted); }
+li { margin-bottom: 0.5em; }
 
 code {
     background-color: var(--bg-code);
-    color: #be123c;
+    color: #b91c1c;
     padding: 0.2em 0.4em;
     border-radius: 4px;
-    font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+    font-family: 'JetBrains Mono', Consolas, monospace;
     font-size: 0.9em;
 }
 
@@ -106,52 +105,58 @@ pre {
     border-radius: 8px;
     overflow-x: auto;
     margin-bottom: 1.5em;
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
 }
-
-pre code {
-    background-color: transparent;
-    color: inherit;
-    padding: 0;
-}
+pre code { background-color: transparent; color: inherit; padding: 0; }
 
 img {
     max-width: 100%;
     height: auto;
     display: block;
-    margin: 30px auto;
+    margin: 40px auto;
     border-radius: 8px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
 
+/* Beautiful Executive Summary Blockquote */
 blockquote {
     border-left: 4px solid var(--primary-color);
-    padding-left: 20px;
-    margin-left: 0;
-    font-style: italic;
-    color: var(--text-muted);
-    background-color: #eff6ff;
-    padding: 15px 20px;
-    border-radius: 0 8px 8px 0;
+    background-color: #f0f9ff;
+    padding: 20px 25px;
+    margin: 2em 0;
+    border-radius: 0 12px 12px 0;
+    font-size: 1.1em;
+    color: #0369a1;
+    line-height: 1.8;
 }
 
+/* Academic Tables */
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 2em;
+    margin: 2.5em 0;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    border-radius: 8px;
+    overflow: hidden;
 }
-
-th, td {
-    padding: 12px 15px;
-    text-align: left;
-    border-bottom: 1px solid var(--border-color);
-}
-
 th {
-    background-color: var(--bg-code);
+    background-color: #f1f5f9;
+    color: #334155;
     font-weight: 600;
+    text-align: left;
+    padding: 15px;
+    border-bottom: 2px solid #cbd5e1;
+}
+td {
+    padding: 15px;
+    border-bottom: 1px solid #e2e8f0;
+    color: #475569;
+}
+tr:hover td {
+    background-color: #f8fafc;
 }
 
+/* Metadata pills */
 ul:first-of-type {
     list-style: none;
     padding: 0;
@@ -161,37 +166,44 @@ ul:first-of-type {
     gap: 15px;
     margin-bottom: 40px;
 }
-
 ul:first-of-type li {
-    background-color: #f0fdf4;
-    border: 1px solid #bbf7d0;
-    color: #166534;
-    padding: 5px 15px;
+    background-color: #e0e7ff;
+    border: 1px solid #c7d2fe;
+    color: #3730a3;
+    padding: 6px 18px;
     border-radius: 20px;
-    font-size: 0.85em;
-    font-weight: 500;
+    font-size: 0.9em;
+    font-weight: 600;
 }
 
 @media (max-width: 768px) {
-    .container {
-        margin: 20px;
-        padding: 20px 30px;
-    }
+    .container { margin: 0; padding: 30px; border-radius: 0; }
+    .header-banner { padding: 40px 20px; }
+    .header-banner h1 { font-size: 2rem; }
 }
 
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="header-banner">
         <h1>Forecasting SEO Content Decay: A Machine Learning Framework for Refresh Prioritization</h1>
+    </div>
+    <div class="container">
+        
 <ul>
 <li><strong>Author:</strong> Mohamed Sherif</li>
 <li><strong>Lane:</strong> Machine Learning</li>
 <li><strong>Code Repository:</strong> <a href="https://github.com/mohamed-6513/flyrank_ml">mohamed-6513/flyrank_ml</a></li>
 <li><strong>Date:</strong> 2026-08-09</li>
 </ul>
+<blockquote>
+<p>[!TIP]
+<strong>Download Full Research Paper:</strong> <a href="flyrank-seo-research-march-2026.pdf">Download PDF Version</a></p>
+</blockquote>
 <h2>0. Abstract</h2>
+<blockquote>
 <p>Content decay quietly erodes organic traffic, but identifying which pages will drop next is notoriously difficult when managing thousands of URLs. Using an anonymized dataset of 17,980 pages from FlyRank, we developed a Logistic Regression model to predict traffic declines over a 90-day window. By learning from features like recent sessions and content age, the model achieved a 76% precision (Precision@50) on the top 50 highest-risk pages, significantly outperforming a human-defined baseline rule (58%). This paper provides a directional decision-support framework for SEO managers to prioritize their content refresh queues efficiently.</p>
+</blockquote>
 <h2>1. Problem framing</h2>
 <p>For SEO managers, content decay is inevitable, but editorial resources are finite. Standard practices often rely on arbitrary rules—like updating any page older than 180 days—which wastes time on stable pages and misses newer pages that are suddenly dropping. This project asks: Can machine learning predict exactly which pages will lose traffic in the next 90 days? We support the SEO manager's decision-making process by replacing guesswork with a predictive ranking system, ensuring that the 50 pages a team updates this month are exactly the 50 most likely to lose traffic if ignored.</p>
 <h2>2. Data safety</h2>
@@ -319,6 +331,10 @@ ul:first-of-type li {
 </tr>
 </tbody>
 </table>
+<p><strong>Portfolio Strategy &amp; Diagnostics:</strong>
+<img src="img/action_mix.svg" alt="Action Mix" />
+<img src="img/top_reason_codes.svg" alt="Top Reason Codes" />
+<img src="img/trend_distribution.svg" alt="Trend Distribution" /></p>
 <h2>8. Reproducibility</h2>
 <p>The exact steps to reproduce this analysis are contained in the <code>work/notebooks/capstone.ipynb</code> notebook. The pipeline handles data fetching, preprocessing, and model training end-to-end. We used <code>duckdb</code>, <code>pandas</code>, <code>scikit-learn</code>, <code>matplotlib</code>, and <code>seaborn</code>. The notebook includes random states (<code>random_state=42</code>) for reproducibility in modeling and splitting.</p>
 <h2>9. Acknowledgments &amp; data credit</h2>

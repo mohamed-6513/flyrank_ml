@@ -5,8 +5,11 @@
 - **Code Repository:** [mohamed-6513/flyrank_ml](https://github.com/mohamed-6513/flyrank_ml)
 - **Date:** 2026-08-09
 
+> [!TIP]
+> **Download Full Research Paper:** [Download PDF Version](flyrank-seo-research-march-2026.pdf)
+
 ## 0. Abstract
-Content decay quietly erodes organic traffic, but identifying which pages will drop next is notoriously difficult when managing thousands of URLs. Using an anonymized dataset of 17,980 pages from FlyRank, we developed a Logistic Regression model to predict traffic declines over a 90-day window. By learning from features like recent sessions and content age, the model achieved a 76% precision (Precision@50) on the top 50 highest-risk pages, significantly outperforming a human-defined baseline rule (58%). This paper provides a directional decision-support framework for SEO managers to prioritize their content refresh queues efficiently.
+> Content decay quietly erodes organic traffic, but identifying which pages will drop next is notoriously difficult when managing thousands of URLs. Using an anonymized dataset of 17,980 pages from FlyRank, we developed a Logistic Regression model to predict traffic declines over a 90-day window. By learning from features like recent sessions and content age, the model achieved a 76% precision (Precision@50) on the top 50 highest-risk pages, significantly outperforming a human-defined baseline rule (58%). This paper provides a directional decision-support framework for SEO managers to prioritize their content refresh queues efficiently.
 
 ## 1. Problem framing
 For SEO managers, content decay is inevitable, but editorial resources are finite. Standard practices often rely on arbitrary rules—like updating any page older than 180 days—which wastes time on stable pages and misses newer pages that are suddenly dropping. This project asks: Can machine learning predict exactly which pages will lose traffic in the next 90 days? We support the SEO manager's decision-making process by replacing guesswork with a predictive ranking system, ensuring that the 50 pages a team updates this month are exactly the 50 most likely to lose traffic if ignored.
@@ -56,6 +59,11 @@ Based on the model's predictions across the entire active portfolio, we output a
 | 3 | 81.4 | refresh_and_review_ctr | low_ctr, model_decline_risk, visible_opportunity | 2498 | down |
 | 4 | 81.0 | refresh_and_review_ctr | low_ctr, model_decline_risk, visible_opportunity | 13790 | down |
 | 5 | 80.9 | refresh_and_review_ctr | low_ctr, model_decline_risk, visible_opportunity | 3393 | down |
+
+**Portfolio Strategy & Diagnostics:**
+![Action Mix](img/action_mix.svg)
+![Top Reason Codes](img/top_reason_codes.svg)
+![Trend Distribution](img/trend_distribution.svg)
 
 ## 8. Reproducibility
 The exact steps to reproduce this analysis are contained in the `work/notebooks/capstone.ipynb` notebook. The pipeline handles data fetching, preprocessing, and model training end-to-end. We used `duckdb`, `pandas`, `scikit-learn`, `matplotlib`, and `seaborn`. The notebook includes random states (`random_state=42`) for reproducibility in modeling and splitting.
