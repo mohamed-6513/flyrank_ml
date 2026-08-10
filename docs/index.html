@@ -199,16 +199,126 @@ ul:first-of-type li {
 <h2>3. Baseline</h2>
 <p>The baseline is a heuristic rule representing standard SEO intuition: flagging pages that are young (&lt;180 days) or high competition (&gt;0.71), scaled by previous impressions. This is a transparent rule that uses no fitted weights, making it a fair comparison. On the test set, the baseline achieved a Precision@50 of 0.5800 compared to a base rate of 0.5665.</p>
 <h2>4. Model / analysis</h2>
-<p>We utilized a focused subset of features: <code>content_age_days</code>, <code>competition</code>, <code>impressions_prev_30d</code>, <code>search_volume</code>, and <code>sessions_prev_30d</code>. The target label is &quot;declining&quot; (1) if its <code>trend_direction</code> is 'down', and 0 otherwise. A Logistic Regression model (with <code>class_weight='balanced'</code>) was trained using a standard scaler and median imputation to predict this binary label.</p>
+<p>We utilized a focused subset of features covering traffic, engagement, and metadata. The target label is &quot;declining&quot; (1) if its <code>trend_direction</code> is 'down', and 0 otherwise. A Random Forest model emerged as the most effective algorithm.</p>
+<p><strong>Top Predictive Features (by importance):</strong></p>
+<ul>
+<li><code>days_with_impressions</code>: 0.1578</li>
+<li><code>log_impressions_90d</code>: 0.1282</li>
+<li><code>avg_position</code>: 0.1090</li>
+<li><code>content_age_days</code>: 0.0955</li>
+<li><code>char_count</code>: 0.0426</li>
+</ul>
 <h2>5. Evaluation</h2>
-<p>We used a Grouped Split (<code>GroupShuffleSplit</code> on <code>client_id</code>) to hold out entire clients. This ensures the model learns generalizable SEO signals, rather than memorizing the quirks and traffic patterns of specific domains. We evaluated the model at the business constraint limit of <code>K=50</code> (the top 50 pages the SEO team has the capacity to review). The model provided a substantial improvement over the heuristic baseline, increasing the precision of the top 50 highest-risk pages from 58% to 76%.</p>
+<p>We used a Grouped Split (<code>GroupShuffleSplit</code> on <code>client_id</code>) to hold out entire clients. This ensures the model learns generalizable SEO signals, rather than memorizing the quirks and traffic patterns of specific domains. We evaluated the model at the business constraint limit of <code>K=50</code> (the top 50 pages the SEO team has the capacity to review). The model provided a substantial improvement over the heuristic baseline, increasing the precision of the top 50 highest-risk pages from 24% to 74%.</p>
+<p><strong>Model Comparison (Client Holdout Split):</strong></p>
+<table>
+<thead>
+<tr>
+  <th>Model</th>
+  <th style="text-align:right">ROC AUC</th>
+  <th style="text-align:right">Avg precision</th>
+  <th style="text-align:right">Precision@50</th>
+  <th style="text-align:right">Recall</th>
+  <th style="text-align:right">F1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>random_forest</td>
+  <td style="text-align:right">0.750</td>
+  <td style="text-align:right">0.618</td>
+  <td style="text-align:right">0.740</td>
+  <td style="text-align:right">0.744</td>
+  <td style="text-align:right">0.640</td>
+</tr>
+<tr>
+  <td>decision_tree</td>
+  <td style="text-align:right">0.742</td>
+  <td style="text-align:right">0.575</td>
+  <td style="text-align:right">0.540</td>
+  <td style="text-align:right">0.716</td>
+  <td style="text-align:right">0.634</td>
+</tr>
+<tr>
+  <td>logistic_regression</td>
+  <td style="text-align:right">0.700</td>
+  <td style="text-align:right">0.522</td>
+  <td style="text-align:right">0.400</td>
+  <td style="text-align:right">0.567</td>
+  <td style="text-align:right">0.566</td>
+</tr>
+<tr>
+  <td>baseline_rules</td>
+  <td style="text-align:right">0.627</td>
+  <td style="text-align:right">0.468</td>
+  <td style="text-align:right">0.240</td>
+  <td style="text-align:right">-</td>
+  <td style="text-align:right">-</td>
+</tr>
+</tbody>
+</table>
 <p><strong>Results Charts:</strong>
 <img src="img/top_feature_importance.svg" alt="Top Feature Importance" />
 <img src="img/confidence_mix.svg" alt="Confidence Mix" /></p>
 <h2>6. Interpretation</h2>
 <p>The model successfully identifies pages at risk of decline by learning from historical sessions, age, and competition. It serves as a directional decision-support tool that highlights correlations, not strict causality. It does not replace human editorial review. The model assumes historical search patterns are representative of future trends, which may briefly shift during major search engine algorithm updates.</p>
 <h2>7. Recommendation</h2>
-<p>Based on the model's predictions across the entire active portfolio, we output a ranked <strong>Action Playbook</strong>. The top 5 pages mathematically most likely to decline were surfaced for immediate editorial review, complete with their feature properties so editors know exactly what to look for.</p>
+<p>Based on the model's predictions across the entire active portfolio, we output a ranked <strong>Action Playbook</strong>. The pages mathematically most likely to decline are surfaced for immediate editorial review, complete with their feature properties and specific recommended actions (e.g., <code>refresh_and_review_ctr</code>).</p>
+<p><strong>Top 5 Action Queue Preview:</strong></p>
+<table>
+<thead>
+<tr>
+  <th style="text-align:right">Rank</th>
+  <th style="text-align:right">Score</th>
+  <th>Action</th>
+  <th>Reasons</th>
+  <th style="text-align:right">Impressions</th>
+  <th>Trend</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td style="text-align:right">1</td>
+  <td style="text-align:right">81.6</td>
+  <td>refresh_and_review_ctr</td>
+  <td>low_ctr, low_engagement, model_decline_risk</td>
+  <td style="text-align:right">12834</td>
+  <td>down</td>
+</tr>
+<tr>
+  <td style="text-align:right">2</td>
+  <td style="text-align:right">81.4</td>
+  <td>refresh_and_review_ctr</td>
+  <td>low_ctr, model_decline_risk, visible_opportunity</td>
+  <td style="text-align:right">8064</td>
+  <td>down</td>
+</tr>
+<tr>
+  <td style="text-align:right">3</td>
+  <td style="text-align:right">81.4</td>
+  <td>refresh_and_review_ctr</td>
+  <td>low_ctr, model_decline_risk, visible_opportunity</td>
+  <td style="text-align:right">2498</td>
+  <td>down</td>
+</tr>
+<tr>
+  <td style="text-align:right">4</td>
+  <td style="text-align:right">81.0</td>
+  <td>refresh_and_review_ctr</td>
+  <td>low_ctr, model_decline_risk, visible_opportunity</td>
+  <td style="text-align:right">13790</td>
+  <td>down</td>
+</tr>
+<tr>
+  <td style="text-align:right">5</td>
+  <td style="text-align:right">80.9</td>
+  <td>refresh_and_review_ctr</td>
+  <td>low_ctr, model_decline_risk, visible_opportunity</td>
+  <td style="text-align:right">3393</td>
+  <td>down</td>
+</tr>
+</tbody>
+</table>
 <h2>8. Reproducibility</h2>
 <p>The exact steps to reproduce this analysis are contained in the <code>work/notebooks/capstone.ipynb</code> notebook. The pipeline handles data fetching, preprocessing, and model training end-to-end. We used <code>duckdb</code>, <code>pandas</code>, <code>scikit-learn</code>, <code>matplotlib</code>, and <code>seaborn</code>. The notebook includes random states (<code>random_state=42</code>) for reproducibility in modeling and splitting.</p>
 <h2>9. Acknowledgments &amp; data credit</h2>

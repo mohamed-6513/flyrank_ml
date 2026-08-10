@@ -18,10 +18,25 @@ Instead of relying on a small static CSV, we queried FlyRank's 79 million-row da
 The baseline is a heuristic rule representing standard SEO intuition: flagging pages that are young (<180 days) or high competition (>0.71), scaled by previous impressions. This is a transparent rule that uses no fitted weights, making it a fair comparison. On the test set, the baseline achieved a Precision@50 of 0.5800 compared to a base rate of 0.5665.
 
 ## 4. Model / analysis
-We utilized a focused subset of features: `content_age_days`, `competition`, `impressions_prev_30d`, `search_volume`, and `sessions_prev_30d`. The target label is "declining" (1) if its `trend_direction` is 'down', and 0 otherwise. A Logistic Regression model (with `class_weight='balanced'`) was trained using a standard scaler and median imputation to predict this binary label.
+We utilized a focused subset of features covering traffic, engagement, and metadata. The target label is "declining" (1) if its `trend_direction` is 'down', and 0 otherwise. A Random Forest model emerged as the most effective algorithm. 
+
+**Top Predictive Features (by importance):**
+- `days_with_impressions`: 0.1578
+- `log_impressions_90d`: 0.1282
+- `avg_position`: 0.1090
+- `content_age_days`: 0.0955
+- `char_count`: 0.0426
 
 ## 5. Evaluation
-We used a Grouped Split (`GroupShuffleSplit` on `client_id`) to hold out entire clients. This ensures the model learns generalizable SEO signals, rather than memorizing the quirks and traffic patterns of specific domains. We evaluated the model at the business constraint limit of `K=50` (the top 50 pages the SEO team has the capacity to review). The model provided a substantial improvement over the heuristic baseline, increasing the precision of the top 50 highest-risk pages from 58% to 76%.
+We used a Grouped Split (`GroupShuffleSplit` on `client_id`) to hold out entire clients. This ensures the model learns generalizable SEO signals, rather than memorizing the quirks and traffic patterns of specific domains. We evaluated the model at the business constraint limit of `K=50` (the top 50 pages the SEO team has the capacity to review). The model provided a substantial improvement over the heuristic baseline, increasing the precision of the top 50 highest-risk pages from 24% to 74%.
+
+**Model Comparison (Client Holdout Split):**
+| Model | ROC AUC | Avg precision | Precision@50 | Recall | F1 |
+|---|---:|---:|---:|---:|---:|
+| random_forest | 0.750 | 0.618 | 0.740 | 0.744 | 0.640 |
+| decision_tree | 0.742 | 0.575 | 0.540 | 0.716 | 0.634 |
+| logistic_regression | 0.700 | 0.522 | 0.400 | 0.567 | 0.566 |
+| baseline_rules | 0.627 | 0.468 | 0.240 | - | - |
 
 **Results Charts:**
 ![Top Feature Importance](img/top_feature_importance.svg)
@@ -31,7 +46,16 @@ We used a Grouped Split (`GroupShuffleSplit` on `client_id`) to hold out entire 
 The model successfully identifies pages at risk of decline by learning from historical sessions, age, and competition. It serves as a directional decision-support tool that highlights correlations, not strict causality. It does not replace human editorial review. The model assumes historical search patterns are representative of future trends, which may briefly shift during major search engine algorithm updates.
 
 ## 7. Recommendation
-Based on the model's predictions across the entire active portfolio, we output a ranked **Action Playbook**. The top 5 pages mathematically most likely to decline were surfaced for immediate editorial review, complete with their feature properties so editors know exactly what to look for.
+Based on the model's predictions across the entire active portfolio, we output a ranked **Action Playbook**. The pages mathematically most likely to decline are surfaced for immediate editorial review, complete with their feature properties and specific recommended actions (e.g., `refresh_and_review_ctr`).
+
+**Top 5 Action Queue Preview:**
+| Rank | Score | Action | Reasons | Impressions | Trend |
+|---:|---:|---|---|---:|---|
+| 1 | 81.6 | refresh_and_review_ctr | low_ctr, low_engagement, model_decline_risk | 12834 | down |
+| 2 | 81.4 | refresh_and_review_ctr | low_ctr, model_decline_risk, visible_opportunity | 8064 | down |
+| 3 | 81.4 | refresh_and_review_ctr | low_ctr, model_decline_risk, visible_opportunity | 2498 | down |
+| 4 | 81.0 | refresh_and_review_ctr | low_ctr, model_decline_risk, visible_opportunity | 13790 | down |
+| 5 | 80.9 | refresh_and_review_ctr | low_ctr, model_decline_risk, visible_opportunity | 3393 | down |
 
 ## 8. Reproducibility
 The exact steps to reproduce this analysis are contained in the `work/notebooks/capstone.ipynb` notebook. The pipeline handles data fetching, preprocessing, and model training end-to-end. We used `duckdb`, `pandas`, `scikit-learn`, `matplotlib`, and `seaborn`. The notebook includes random states (`random_state=42`) for reproducibility in modeling and splitting.
