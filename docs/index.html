@@ -183,6 +183,26 @@ tr:hover td {
     background-color: #f1f5f9;
 }
 
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 40px auto;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+blockquote {
+    border-left: 4px solid var(--accent-color);
+    background-color: var(--bg-page);
+    padding: 20px 25px;
+    margin: 2em 0;
+    border-radius: 0 8px 8px 0;
+    font-style: italic;
+    color: var(--text-secondary);
+}
+
 @media (max-width: 768px) {
     .container {
         margin: 0;
@@ -270,6 +290,12 @@ tr:hover td {
 </tr>
 </tbody>
 </table>
+<p><strong>Results Charts:</strong>
+<img src="img/queue_performance.png" alt="Model Outperformance across Queue Sizes" /></p>
+<blockquote>
+<p><strong>Takeaway:</strong> The model drastically outperforms the baseline at smaller queue sizes, making it highly effective for prioritizing limited editorial resources.</p>
+</blockquote>
+<p><img src="img/feature_coefficients.png" alt="Feature Coefficients for Decline Risk" /></p>
 <h2>6. Interpretation</h2>
 <p>The model successfully identifies pages at risk of decline by learning from historical sessions, age, and competition. It serves as a directional decision-support tool that highlights correlations, not strict causality. It does not replace human editorial review. The model assumes historical search patterns are representative of future trends, which may briefly shift during major search engine algorithm updates.</p>
 <h2>7. Recommendation</h2>

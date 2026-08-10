@@ -30,6 +30,12 @@ We used a Grouped Split (`GroupShuffleSplit` on `client_id`) to hold out entire 
 | 50 | 0.5800 | 0.7600 |
 | 100 | 0.6000 | 0.6600 |
 
+**Results Charts:**
+![Model Outperformance across Queue Sizes](img/queue_performance.png)
+> **Takeaway:** The model drastically outperforms the baseline at smaller queue sizes, making it highly effective for prioritizing limited editorial resources.
+
+![Feature Coefficients for Decline Risk](img/feature_coefficients.png)
+
 ## 6. Interpretation
 The model successfully identifies pages at risk of decline by learning from historical sessions, age, and competition. It serves as a directional decision-support tool that highlights correlations, not strict causality. It does not replace human editorial review. The model assumes historical search patterns are representative of future trends, which may briefly shift during major search engine algorithm updates.
 
