@@ -37,13 +37,13 @@ The model successfully identifies pages at risk of decline by learning from hist
 Based on the model's predictions across the entire active portfolio, we output a ranked **Action Playbook**. The top 5 pages mathematically most likely to decline were surfaced for immediate editorial review, complete with their feature properties so editors know exactly what to look for.
 
 **Top 5 Pages for Immediate Editorial Review:**
-| content_id | decline_probability | content_age_days | competition | impressions_prev_30d | sessions_prev_30d |
-|---|---:|---:|---:|---:|---:|
-| content_c84a0ab98e90 | 0.697 | 95 | 0.00 | 84,773 | 19 |
-| content_39881853ef0c | 0.690 | 97 | 0.02 | 64,917 | 11 |
-| content_453722754fea | 0.677 | 97 | 0.00 | 32,872 | 1 |
-| content_8d3971bfd976 | 0.674 | 95 | 0.00 | 54,506 | 17 |
-| content_73c54f78c06a | 0.671 | 97 | 0.00 | 97,200 | 44 |
+| content_id | decline_probability | content_age_days | competition | impressions_prev_30d | search_volume | sessions_prev_30d |
+|---|---:|---:|---:|---:|---:|---:|
+| content_c84a0ab98e90 | 0.697 | 95 | 0.00 | 84,773 | 0.0 | 19 |
+| content_39881853ef0c | 0.690 | 97 | 0.02 | 64,917 | 170.0 | 11 |
+| content_453722754fea | 0.677 | 97 | 0.00 | 32,872 | 10.0 | 1 |
+| content_8d3971bfd976 | 0.674 | 95 | 0.00 | 54,506 | 0.0 | 17 |
+| content_73c54f78c06a | 0.671 | 97 | 0.00 | 97,200 | 10.0 | 44 |
 
 ## 8. Reproducibility
 The exact steps to reproduce this analysis are contained in the `work/notebooks/capstone.ipynb` notebook. The pipeline handles data fetching, preprocessing, and model training end-to-end. We used `duckdb`, `pandas`, `scikit-learn`, `matplotlib`, and `seaborn`. The notebook includes random states (`random_state=42`) for reproducibility in modeling and splitting.
